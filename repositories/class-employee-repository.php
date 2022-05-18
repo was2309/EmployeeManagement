@@ -95,5 +95,14 @@ class EmployeeRepository
         return $this->db->delete($this->table_name, ['id' => $id]);
     }
 
+    public function get_employee_data_for_list_table(){
+        $query = "SELECT e.id AS employee_id, e.employee_first_name, e.employee_last_name, d.department_name_abbreviation
+                   FROM " . $this->table_name . " e
+                   INNER JOIN " . $this->db->prefix . BaseRepository::EMPLOYEE_DEPARTMENT_TABLE_NAME . " d
+                   ON e.employee_department_id = d.id";
+
+        return $this->db->get_results($query, ARRAY_A);
+    }
+
 
 }

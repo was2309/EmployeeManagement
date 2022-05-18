@@ -67,7 +67,7 @@ class EmployeeDepartmentRepository
     }
 
     public function get_department_by_id($id){
-        $query = "SELECT `deparetmenu_name`, `deparetmenu_name_abbreviation` FROM  $this->table_name  WHERE `id`=%d ";
+        $query = "SELECT `department_name`, `department_name_abbreviation` FROM  $this->table_name  WHERE `id`=%d ";
 
         $sql = $this->db->prepare($query, [$id]);
 
@@ -75,7 +75,7 @@ class EmployeeDepartmentRepository
     }
 
     public function get_department_by_abbreviation($abb){
-        $query = "SELECT `deparetmenu_name`, `deparetmenu_name_abbreviation` FROM  $this->table_name  WHERE `deparetmenu_name_abbreviation`=%s ";
+        $query = "SELECT `department_name`, `department_name_abbreviation` FROM  $this->table_name  WHERE `department_name_abbreviation`=%s ";
 
         $sql = $this->db->prepare($query, [$abb]);
 

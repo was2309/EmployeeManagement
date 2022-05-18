@@ -31,4 +31,8 @@ class EmployeeService
         BaseRepository::get_base_repository()->get_employee_repository()->delete_employee($id);
     }
 
+    public function get_employee_data_for_list_table(){
+        return BaseRepository::get_base_repository()->get_employee_repository()->get_employee_data_for_list_table();
+    }
+
 }
