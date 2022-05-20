@@ -10,12 +10,12 @@
 
 use EmployeeManagement\Plugin;
 
-if( ! defined('ABSPATH')){
+if (!defined('ABSPATH')) {
     exit;
 }
 
-require_once plugin_dir_path( __FILE__ ) . '/vendor/autoload.php';
-require_once trailingslashit( __DIR__ ) . 'inc/autoloader.php';
+require_once plugin_dir_path(__FILE__) . '/autoloader/em_autoloader.php';
+//require_once plugin_dir_path( __FILE__ ) . 'Plugin.php';
 
 global $wpdb;
 
