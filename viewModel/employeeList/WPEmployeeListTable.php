@@ -4,7 +4,7 @@ namespace EmployeeManagement\ViewModel\EmployeeList;
 
 use WP_List_Table;
 
-class WP_Employee_List_Table extends WP_List_Table
+class WPEmployeeListTable extends WP_List_Table
 {
 
     private $employee_data;

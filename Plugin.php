@@ -5,13 +5,13 @@ namespace EmployeeManagement;
 use EmployeeManagement\Controllers\FrontendController;
 use EmployeeManagement\Services\PluginService;
 use EmployeeManagement\Components\Setup\Update;
-use EmployeeManagement\ViewModel\EmployeeList\WP_Employee_List_Table;
+use EmployeeManagement\ViewModel\EmployeeList\WPEmployeeListTable;
 use wpdb;
 
 class Plugin
 {
     public $db;
-    protected static $instance;
+    public static $instance;
     private $plugin_file;
 
     private function __construct($wpdb, $plugin_file)
@@ -35,10 +35,9 @@ class Plugin
     {
         register_activation_hook($this->plugin_file, [$this, 'activate']);
 
-        add_action('init', [$this, 'register_new_wc_order_statuses']);
+       // add_action('init', [$this, 'register_new_wc_order_statuses']);
         add_action('init', [$this, 'load_plugin_text_domain']);
 
-        add_action('admin_init', [$this, 'employee_register_settings'], 9);
         add_action('admin_init', [$this, 'employee_management_plugin_controller_action_trigger']);
 
         add_action('admin_menu', [$this, 'create_employee_menu']);
@@ -46,12 +45,12 @@ class Plugin
         add_action('admin_menu', [$this, 'employee_page']);
         add_action('admin_menu', [$this, 'employee_view_page']);
         add_action('admin_menu', [$this, 'employee_settings_page']);
-
+//
         add_filter('wc_order_statuses', [$this, 'add_new_registered_wc_order_statuses']);
-
-        add_action('woocommerce_admin_order_actions_start', [$this, 'add_get_order_information_button']);
-        add_action('woocommerce_admin_order_actions_start', [$this, 'add_print_button_to_order_in_list_table']);
-
+//
+//        add_action('woocommerce_admin_order_actions_start', [$this, 'add_get_order_information_button']);
+//        add_action('woocommerce_admin_order_actions_start', [$this, 'add_print_button_to_order_in_list_table']);
+//
         add_filter('set-screen-option', function ($status, $option, $value) {
             return $value;
         }, 10, 3);
@@ -102,9 +101,88 @@ class Plugin
                 'default' => 2,
                 'option' => 'employees_per_page'
             ]);
-            $employeeList = new WP_Employee_List_Table(null, null);
+            $employeeList = new WPEmployeeListTable(null, null);
         });
     }
+
+    public function employee_settings_page(){
+        add_submenu_page(
+          'employee_management',
+          'Employee options',
+          'Settings',
+          'manage_options',
+          'employee_settings',
+          [new FrontendController(), 'render']
+        );
+    }
+
+    public function employee_page(){
+        add_submenu_page(
+          'employee_management',
+          'Employee',
+          __('New employee', 'employee_management'),
+          'manage_options',
+          'employee_view',
+          [new FrontendController(), 'render']
+        );
+    }
+
+    public function employee_view_page(){
+        add_submenu_page(
+            null,
+            'Employee',
+            'View employee',
+            'manage_options',
+            'employee_view',
+            [new FrontendController(), 'render']
+        );
+    }
+
+    public function employee_management_plugin_controller_action_trigger() {
+
+        if (empty($_REQUEST['controller_name'])) {
+
+            return;
+        }
+
+        $controller_name = esc_html($_REQUEST['controller_name']) . 'Controller';
+
+        if (!class_exists($controller_name))
+            return;
+
+        $controller = new $controller_name;
+
+        $action = esc_html($_REQUEST['action']) ?: '';
+
+        $controller->handle_action($action);
+    }
+
+    public function load_plugin_text_domain() {
+
+        load_plugin_textdomain(
+            'employee_management',
+            false,
+            plugin_basename(dirname(__FILE__)) . '/i18n/languages'
+        );
+    }
+
+    public function add_new_registered_wc_order_statuses($order_statuses) {
+
+        $order_statuses['wc-new_status_1'] = __('New status 1', ',employee_management');
+        $order_statuses['wc-new_status_2'] = __('New status 2', ',employee_management');
+
+        return $order_statuses;
+
+    }
+
+
+
+
+
+
+
+
+
 
 
 }

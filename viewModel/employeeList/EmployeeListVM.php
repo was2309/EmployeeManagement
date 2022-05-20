@@ -24,7 +24,7 @@ class EmployeeListVM
             $employee_data = $this->employee_service->get_employee_data_for_list_table();
         }
 
-        return new WP_Employee_List_Table($employee_data, null);
+        return new WPEmployeeListTable($employee_data, null);
     }
 
 }

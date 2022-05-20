@@ -19,4 +19,5 @@ require_once plugin_dir_path(__FILE__) . '/autoloader/em_autoloader.php';
 
 global $wpdb;
 
+//Plugin::instance($wpdb, __FILE__);
 Plugin::instance($wpdb, __FILE__);

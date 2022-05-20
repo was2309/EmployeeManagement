@@ -13,6 +13,16 @@ function employee_management_autoloader($class_name)
     }
 
     $fileName = str_replace('EmployeeManagement\\', '', $class_name);
+    $fileNameArray = explode('\\', $fileName  );
+    $lastFileName = end($fileNameArray);
+    array_pop($fileNameArray);
+
+    foreach ($fileNameArray as &$item){
+        $item = strtolower($item);
+    }
+
+    $fileNameArray[]=$lastFileName;
+    $fileName = implode('/', $fileNameArray);
 
     $filePath = __DIR__ . '/../' . $fileName . '.php';
 
