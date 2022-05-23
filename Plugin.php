@@ -2,6 +2,7 @@
 
 namespace EmployeeManagement;
 
+use EmployeeManagement\Components\Util\EmployeeHelper;
 use EmployeeManagement\Controllers\FrontendController;
 use EmployeeManagement\Services\PluginService;
 use EmployeeManagement\Components\Setup\Update;
@@ -35,7 +36,7 @@ class Plugin
     {
         register_activation_hook($this->plugin_file, [$this, 'activate']);
 
-       // add_action('init', [$this, 'register_new_wc_order_statuses']);
+        add_action('init', [$this, 'register_new_wc_order_statuses']);
         add_action('init', [$this, 'load_plugin_text_domain']);
 
         add_action('admin_init', [$this, 'employee_management_plugin_controller_action_trigger']);
@@ -44,13 +45,12 @@ class Plugin
         add_action('admin_menu', [$this, 'create_all_employees_page']);
         add_action('admin_menu', [$this, 'employee_page']);
         add_action('admin_menu', [$this, 'employee_view_page']);
-        add_action('admin_menu', [$this, 'employee_settings_page']);
-//
+
         add_filter('wc_order_statuses', [$this, 'add_new_registered_wc_order_statuses']);
-//
-//        add_action('woocommerce_admin_order_actions_start', [$this, 'add_get_order_information_button']);
-//        add_action('woocommerce_admin_order_actions_start', [$this, 'add_print_button_to_order_in_list_table']);
-//
+
+        add_action('woocommerce_admin_order_actions_start', [$this, 'add_get_order_information_button']);
+        add_action('woocommerce_admin_order_actions_start', [$this, 'add_print_button_to_order_in_list_table']);
+
         add_filter('set-screen-option', function ($status, $option, $value) {
             return $value;
         }, 10, 3);
@@ -69,7 +69,6 @@ class Plugin
         $updater = new Update();
         $updater->init_or_update_plugin();
     }
-
 
     public function create_employee_menu()
     {
@@ -105,24 +104,13 @@ class Plugin
         });
     }
 
-    public function employee_settings_page(){
-        add_submenu_page(
-          'employee_management',
-          'Employee options',
-          'Settings',
-          'manage_options',
-          'employee_settings',
-          [new FrontendController(), 'render']
-        );
-    }
-
     public function employee_page(){
         add_submenu_page(
           'employee_management',
           'Employee',
           __('New employee', 'employee_management'),
           'manage_options',
-          'employee_view',
+          'employee',
           [new FrontendController(), 'render']
         );
     }
@@ -133,7 +121,7 @@ class Plugin
             'Employee',
             'View employee',
             'manage_options',
-            'employee_view',
+            'employeeview',
             [new FrontendController(), 'render']
         );
     }
@@ -175,13 +163,78 @@ class Plugin
 
     }
 
+    public function register_new_wc_order_statuses() {
+        //prefix wc- needed for woocommerce to read statuses
+        $order_statuses = [
+            'wc-new_status_1' => [
+                'label' => _x('New status 1', 'employee-management'),
+                'public' => true,
+                'exclude_from_search' => false,
+                'show_in_admin_all_list' => true,
+                'show_in_admin_status_list' => true,
+                'label_count' => _n_noop('New status 1 <span class="count">(%s)</span>',
+                    'New status 1 <span class="count">(%s)</span>')
+            ],
+            'wc-new_status_2' => [
+                'label' => _x('New status 2', 'employee-management'),
+                'public' => true,
+                'exclude_from_search' => false,
+                'show_in_admin_all_list' => true,
+                'show_in_admin_status_list' => true,
+                'label_count' => _n_noop('New status 2 <span class="count">(%s)</span>',
+                    'New status 2<span class="count">(%s)</span>')
+            ],
+        ];
 
+        foreach ($order_statuses as $order_status => $values) {
+            register_post_status($order_status, $values);
+        }
 
+    }
 
+    public function add_get_order_information_button($order){
 
+        $order_id = method_exists($order, 'get_id') ? $order->get_id() : $order->id;
 
+        $url = EmployeeHelper::get_controller('Employee','order-information',[
+            'order_id'=>$order_id
+        ]);
 
+        wp_enqueue_script(
+            'employee-management-print-order-btn',
+            plugins_url('/resources/js/employee-management-print-order.js', __FILE__),
+            ['jquery'],
+            '1.0.0',
+            true
+        );
 
+        echo "<button class='get-order-infromation-button button' url=' " . $url . " ' >" . __('Get info', 'employee-management') . "</button>";
+
+    }
+
+    public function add_print_button_to_order_in_list_table($order) {
+
+        $order_id = method_exists($order, 'get_id') ? $order->get_id() : $order->id;
+
+        $url = EmployeeHelper::get_controller(
+            'Employee',
+            'print-order',
+            [
+                'printer' => 'word-order',
+                'order_id' => $order_id
+            ]);
+
+        wp_enqueue_script(
+            'employee-management-print-order-btn',
+            plugins_url('/resources/js/employee-management-print-order.js', __FILE__),
+            ['jquery'],
+            '1.0.0',
+            true
+        );
+
+        echo "<button class='print-button button' url-print=' " . $url . " ' >" . __('Print', 'employee-management') . "</button>";
+
+    }
 
 
 

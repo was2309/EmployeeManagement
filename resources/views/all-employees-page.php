@@ -27,8 +27,4 @@ $employee_list_table = $employee_list_vm->get_employee_list();
     ?>
 
 
-
-
-
-
 </div>
