@@ -14,11 +14,25 @@
 .form-left-side {
     display: grid;
     grid-template-rows: 1fr 2fr;
+    padding-right: 7rem;
 }
+
+.form-right-side{
+    margin-top: 20px;
+}
+
+.form-right-side label{
+    font-size: 1.2em;
+}
+
+.form-right-side select{
+    width: 15rem;
+}
+
+
 
 .input-div-wrapper {
     margin-top: 20px;
-    margin-bottom: 0;
 }
 
 .input-div-wrapper input[type='text'],
@@ -41,9 +55,10 @@
     justify-content: end;
 }
 
-.buttons-above-form-wraper {
+.buttons-above-form-wrapper {
     display: flex;
     justify-content: end;
+    padding-right: 4rem;
 }
 
 .buttons-above-form-wraper div {
@@ -69,6 +84,7 @@
     font-size: 15px;
     font-weight: 50;
     line-height: 5px;
+    margin-left: 2rem;
     min-height: 20px;
     outline: 0;
     padding: 12px 14px;
@@ -147,4 +163,8 @@
 
 .btn-cancel::-webkit-details-marker {
     display: none;
+}
+
+.form-button-wrapper{
+    margin-right: 5em;
 }

@@ -56,7 +56,7 @@ $departments = $employee_vm->get_departments();
                 <select name="departments">
                 <?php
                     foreach($departments as $department){
-                        echo "<option value='". $department['department_name'] . "'>" . $department['id'] . "</option>";
+                        echo "<option value='". $department['id'] . "'>" . $department['department_name'] . "</option>";
                     }
                 ?>
                 </select>

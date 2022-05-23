@@ -14,7 +14,7 @@ class FrontendController
             case 'employee':
                 wp_enqueue_style(
                     'employee-page',
-                    plugin_dir_url(__FILE__) . '../resources/css/employee_page.css'
+                    plugin_dir_url(__FILE__) . '../resources/css/employee-page.css'
                 );
                 include_once plugin_dir_path(__FILE__) . '../resources/views/employee-page.php';
                 break;

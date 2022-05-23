@@ -58,8 +58,8 @@ class EmployeeController extends BaseController
 
         $employee = $this ->validate_employee();
 
-        if(!empty($_POST['movie_id'])){
-            $id = esc_html($_POST['movie_id']);
+        if(!empty($_POST['employee_id'])){
+            $id = esc_html($_POST['employee_id']);
             $result = $this->employee_service->update_employee($id, $employee);
         }else{
             $result = $this->employee_service->save_employee($employee);

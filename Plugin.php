@@ -1,13 +1,14 @@
 <?php
 
 namespace EmployeeManagement;
+//require_once plugin_dir_path(__FILE__) . '/autoloader/em_autoloader.php';
 
+use EmployeeManagement\Components\Setup\Update;
 use EmployeeManagement\Components\Util\EmployeeHelper;
 use EmployeeManagement\Controllers\FrontendController;
 use EmployeeManagement\Services\PluginService;
-use EmployeeManagement\Components\Setup\Update;
 use EmployeeManagement\ViewModel\EmployeeList\WPEmployeeListTable;
-use wpdb;
+
 
 class Plugin
 {
@@ -104,18 +105,20 @@ class Plugin
         });
     }
 
-    public function employee_page(){
+    public function employee_page()
+    {
         add_submenu_page(
-          'employee_management',
-          'Employee',
-          __('New employee', 'employee_management'),
-          'manage_options',
-          'employee',
-          [new FrontendController(), 'render']
+            'employee_management',
+            'Employee',
+            __('New employee', 'employee_management'),
+            'manage_options',
+            'employee',
+            [new FrontendController(), 'render']
         );
     }
 
-    public function employee_view_page(){
+    public function employee_view_page()
+    {
         add_submenu_page(
             null,
             'Employee',
@@ -126,26 +129,27 @@ class Plugin
         );
     }
 
-    public function employee_management_plugin_controller_action_trigger() {
+    public function employee_management_plugin_controller_action_trigger()
+    {
 
         if (empty($_REQUEST['controller_name'])) {
-
             return;
         }
 
-        $controller_name = esc_html($_REQUEST['controller_name']) . 'Controller';
+        $class_name = '\EmployeeManagement\Controllers\\' . esc_html($_REQUEST['controller_name']) . 'Controller';
 
-        if (!class_exists($controller_name))
+        if (!class_exists($class_name)) {
             return;
+        }
 
-        $controller = new $controller_name;
-
+        $controller = new $class_name;
         $action = esc_html($_REQUEST['action']) ?: '';
 
         $controller->handle_action($action);
     }
 
-    public function load_plugin_text_domain() {
+    public function load_plugin_text_domain()
+    {
 
         load_plugin_textdomain(
             'employee_management',
@@ -154,7 +158,8 @@ class Plugin
         );
     }
 
-    public function add_new_registered_wc_order_statuses($order_statuses) {
+    public function add_new_registered_wc_order_statuses($order_statuses)
+    {
 
         $order_statuses['wc-new_status_1'] = __('New status 1', ',employee_management');
         $order_statuses['wc-new_status_2'] = __('New status 2', ',employee_management');
@@ -163,7 +168,8 @@ class Plugin
 
     }
 
-    public function register_new_wc_order_statuses() {
+    public function register_new_wc_order_statuses()
+    {
         //prefix wc- needed for woocommerce to read statuses
         $order_statuses = [
             'wc-new_status_1' => [
@@ -192,12 +198,13 @@ class Plugin
 
     }
 
-    public function add_get_order_information_button($order){
+    public function add_get_order_information_button($order)
+    {
 
         $order_id = method_exists($order, 'get_id') ? $order->get_id() : $order->id;
 
-        $url = EmployeeHelper::get_controller('Employee','order-information',[
-            'order_id'=>$order_id
+        $url = EmployeeHelper::get_controller('Employee', 'order-information', [
+            'order_id' => $order_id
         ]);
 
         wp_enqueue_script(
@@ -212,7 +219,8 @@ class Plugin
 
     }
 
-    public function add_print_button_to_order_in_list_table($order) {
+    public function add_print_button_to_order_in_list_table($order)
+    {
 
         $order_id = method_exists($order, 'get_id') ? $order->get_id() : $order->id;
 
@@ -235,7 +243,6 @@ class Plugin
         echo "<button class='print-button button' url-print=' " . $url . " ' >" . __('Print', 'employee-management') . "</button>";
 
     }
-
 
 
 }
