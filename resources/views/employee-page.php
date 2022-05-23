@@ -47,16 +47,16 @@ $departments = $employee_vm->get_departments();
                 </div>
                 <div class="input-div-wrapper">
                     <label>Date of birth:</label>
-                    <input type="date" name="employee_last_name"
+                    <input type="date" name="employee_birthday"
                            value="<?= $employee['employee_birthday']?>">
                 </div>
             </div>
             <div class="form-right-side">
-                <label for="departments">Department</label>
-                <select name="departments">
+                <label for="department_id">Department</label>
+                <select name='department_id'>
                 <?php
                     foreach($departments as $department){
-                        echo "<option value='". $department['id'] . "'>" . $department['department_name'] . "</option>";
+                        echo "<option  value='". $department['id'] . "'>" . $department['department_name'] . "</option>";
                     }
                 ?>
                 </select>

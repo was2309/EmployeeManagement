@@ -95,11 +95,11 @@ class EmployeeController extends BaseController
             return false;
         }
 
-        if(empty($_POST['employee_department_id'])){
+        if(empty($_POST['department_id'])){
             return false;
         }
 
-        $department_id = esc_html($_POST['employee_department_id']);
+        $department_id = esc_html($_POST['department_id']);
 
         $department = EmployeeDepartmentService::get_department_by_id($department_id);
 

@@ -46,7 +46,7 @@ class WPEmployeeListTable extends WP_List_Table
 
     protected function get_sortable_columns()
     {
-        $sortableColumns = [
+        return [
             'employee_last_name' => ['employee_last_name', true],
             'department_name' => ['department_name', true],
         ];
