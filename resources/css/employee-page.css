@@ -18,6 +18,7 @@
 
 .input-div-wrapper {
     margin-top: 20px;
+    margin-bottom: 0;
 }
 
 .input-div-wrapper input[type='text'],
