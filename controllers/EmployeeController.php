@@ -4,6 +4,7 @@ namespace EmployeeManagement\Controllers;
 
 use EmployeeManagement\Services\EmployeeDepartmentService;
 use EmployeeManagement\Services\EmployeeService;
+use EmployeeManagement\Services\Printers\EmployeePrinterService;
 
 
 class EmployeeController extends BaseController
@@ -11,11 +12,13 @@ class EmployeeController extends BaseController
 
     private $employee_service;
     private $employee_department_service;
+    private $employee_printer_service;
 
     public function __construct()
     {
         $this->employee_service = new EmployeeService();
         $this->employee_department_service = new EmployeeDepartmentService();
+        $this->employee_printer_service = new EmployeePrinterService();
     }
 
     public function handle_action($action){
@@ -33,18 +36,11 @@ class EmployeeController extends BaseController
                 $this->delete_employee();
                 wp_redirect(admin_url('admin.php?page=employees'));
                 break;
-            case 'findAll':
-
+            case 'print':
+                $this->print_employee();
                 break;
-            case 'findByID':
-                break;
-            case 'findByLastName':
-                break;
-            case 'update':
-                break;
-            case 'printAll':
-                break;
-            case 'printOne':
+            case 'print-order':
+                $this->print_order();
                 break;
             case 'order-information':
                 $this->get_order_information();
@@ -125,6 +121,86 @@ class EmployeeController extends BaseController
 
         echo json_encode($order);
 
+    }
+
+    private function print_employee(){
+        if(empty($_POST['printer']) || empty($_POST['employee_id'])){
+            return;
+        }
+
+        $format = esc_html($_POST['printer']);
+
+        $employee = $this->employee_service->find_employee_by_id(esc_html($_POST['employee_id']));
+        if(!$employee){
+            return;
+        }
+
+        try{
+            $file = $this->employee_printer_service->print_document($format, $employee);
+
+            $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
+
+            $this->download_file($file_path);
+        } catch (Exception $e) {
+
+            return;
+        }
+    }
+
+    private function print_order() {
+
+        if (!$this->movie_print_service->can_user_print_order()) {
+
+            return;
+        }
+
+        if (empty($_REQUEST['printer']) ||
+            empty($_REQUEST['order_id'])) {
+
+            return;
+        }
+        $order_id = esc_html($_REQUEST['order_id']);
+        $format = esc_html($_REQUEST['printer']);
+
+        $order = wc_get_order($order_id);
+
+        if (!$order) {
+
+            return;
+        }
+
+        try {
+
+            $file = $this->movie_print_service->print_document($format, $order);
+
+            $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
+
+            $this->download_file($file_path);
+
+
+        } catch (Exception $e) {
+
+            return;
+        }
+
+    }
+
+    private function download_file($file_path) {
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header("Cache-Control: no-cache, must-revalidate");
+        header("Expires: 0");
+        header('Content-Disposition: attachment; filename="' . basename($file_path) . '"');
+        header('Content-Length: ' . filesize($file_path));
+        header('Pragma: public');
+
+        //Clear system output buffer
+        flush();
+
+        readfile($file_path);
+
+        unlink($file_path);
     }
 
 }
