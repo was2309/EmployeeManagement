@@ -10,7 +10,7 @@ class BaseRepository
 
     private $db;
 
-    private static $base_repository;
+    private static $base_repository=null;
     private $employee_repository;
     private $department_repository;
 
@@ -20,7 +20,7 @@ class BaseRepository
     }
 
     public static function get_base_repository(){
-        if(null === self::$base_repository){
+        if(!self::$base_repository){
             self::$base_repository = new BaseRepository();
         }
         return self::$base_repository;

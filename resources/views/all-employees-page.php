@@ -8,7 +8,7 @@ $employee_list_table = $employee_list_vm->get_employee_list();
 ?>
 
 <div class="wrap">
-    <h3><?=__('All employees', 'employee-management')?></h3>
+    <h2><b><?=__('All employees', 'employee-management')?></b></h2>
     <form method="get">
         <input type="hidden" name="page" value="employee">
         <button class="button-primary" type="submit"><?=__('New employee', 'employee-management')?></button>

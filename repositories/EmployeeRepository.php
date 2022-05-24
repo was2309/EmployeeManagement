@@ -60,9 +60,9 @@ class EmployeeRepository
                             FROM " . $this->table_name . " e
                             INNER JOIN " . $this->db->prefix . BaseRepository::EMPLOYEE_DEPARTMENT_TABLE_NAME . " d 
                             ON e.employee_department_id=d.id
-                            WHERE e.employee_last_name LIKE '% " . $last_name . "%' ";
+                            WHERE e.employee_last_name LIKE '%" . $last_name . "%' ";
 
-        return $this->db->get_row($query, ARRAY_A);
+        return $this->db->get_results($query, ARRAY_A);
     }
 
     public function save_new_employee($employee){

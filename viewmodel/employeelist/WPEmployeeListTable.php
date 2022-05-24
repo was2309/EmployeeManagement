@@ -35,13 +35,14 @@ class WPEmployeeListTable extends WP_List_Table
             case 'employee_birthday':
             case 'department_name':
             case 'department_name_abbreviation':
+                return $item[$column_name];
             default:
         }
     }
 
     protected function column_cb($item)
     {
-        return sprintf('<input type="checkbox" name="movie[]" value="%s"/>', $item['employee_id']);
+        return sprintf('<input type="checkbox" name="employee[]" value="%s"/>', $item['employee_id']);
     }
 
     protected function get_sortable_columns()
@@ -87,7 +88,7 @@ class WPEmployeeListTable extends WP_List_Table
         $this->items = $this->employee_data;
     }
 
-    function column_employee_last_name($item) {
+    function column_employee_first_name($item) {
         $actions = array(
             'view' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'employeeview', 'employee_id', $item['employee_id'], __('View', 'employee-management')),
             'edit' => sprintf('<a href="?page=%s&%s=%s">%s</a>', 'employee', 'employee_id', $item['employee_id'], __('Edit', 'employee-management')),
@@ -115,7 +116,7 @@ class WPEmployeeListTable extends WP_List_Table
         ',$item['employee_id'], __('Print', 'employee-management')),
         );
 
-        return sprintf('%1$s %2$s', $item['employee_last_name'], $this->row_actions($actions));
+        return sprintf('%1$s %2$s', $item['employee_first_name'], $this->row_actions($actions));
     }
 
 

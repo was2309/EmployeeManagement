@@ -13,13 +13,13 @@ $employee = $employee_vm->get_employee();
                 <h1><?= $employee['employee_first_name'] . ' ' .$employee['employee_last_name']?></h1>
             </div>
             <div class="blog-summary">
-                <p>Birthday: <?= $employee['employee_birthday']?></p>
+                <p><b>Birthday:</b> <?= $employee['employee_birthday']?></p>
             </div>
             <div class="blog-summary">
-                <p>Department: <?= $employee['department_name']?></p>
+                <p><b>Department:</b> <?= $employee['department_name']?></p>
             </div>
             <div class="blog-summary">
-                <p>Department abbreviation: <?= $employee['department_name_abbreviation']?></p>
+                <p><b>Department abbreviation:</b> <?= $employee['department_name_abbreviation']?></p>
             </div>
 
             <div class="blog-tags">
