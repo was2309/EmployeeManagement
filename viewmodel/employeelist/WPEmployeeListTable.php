@@ -37,6 +37,7 @@ class WPEmployeeListTable extends WP_List_Table
             case 'department_name_abbreviation':
                 return $item[$column_name];
             default:
+                print_r($item, true);
         }
     }
 
