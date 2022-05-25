@@ -62,7 +62,7 @@ class Plugin
     public function activate()
     {
         if (!PluginService::is_woocommerce_active()) {
-            wp_die(esc_html(__('Please install and activate WooCommerce plugin', 'movie-plugin')),
+            wp_die(esc_html(__('Please install and activate WooCommerce plugin', 'employee-management')),
                 'Plugin active check',
                 ['back_link' => true]);
         }

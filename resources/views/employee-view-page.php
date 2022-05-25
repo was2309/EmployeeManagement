@@ -35,7 +35,7 @@ $employee = $employee_vm->get_employee();
                         <form method="post">
                             <input type="hidden" name="controller_name" value="Employee">
                             <input type="hidden" name="action" value="delete">
-                            <input type="hidden" name='movie_id' value="<?= $employee['employee_id'] ?>">
+                            <input type="hidden" name="employee_id" value="<?= $employee['employee_id'] ?>">
                             <button class="btn-delete" type="submit">Delete</button>
                         </form>
                     </li>
@@ -51,9 +51,9 @@ $employee = $employee_vm->get_employee();
         <div class="blog-footer ">
             <form method="post">
                 <div>Choose printing format: </div>
-                <input type="hidden" name="controller_name" value="employee"">
+                <input type="hidden" name="controller_name" value="Employee"">
                 <input type="hidden" name="action" value="print">
-                <input type="hidden" name="movie_id" value="<?=$employee['employee_id']?>">
+                <input type="hidden" name="employee_id" value="<?=$employee['employee_id']?>">
                 <div class="form-printers">
                     <div>
                         <input type="radio" name="printer" value="word">Word

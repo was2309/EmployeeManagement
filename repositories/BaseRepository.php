@@ -58,7 +58,7 @@ class BaseRepository
 
     }
 
-    public function initialize_movie_plugin_tables(){
+    public function initialize_employee_plugin_tables(){
         $this->department_repository = new EmployeeDepartmentRepository();
         $this->department_repository->check_database_and_fill_table();
 

@@ -13,7 +13,7 @@ class Update
 
     private function initialize_plugin() {
 
-        BaseRepository::get_base_repository()->initialize_movie_plugin_tables();
+        BaseRepository::get_base_repository()->initialize_employee_plugin_tables();
     }
 
     public function init_or_update_plugin(){

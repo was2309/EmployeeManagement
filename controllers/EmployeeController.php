@@ -149,7 +149,7 @@ class EmployeeController extends BaseController
 
     private function print_order() {
 
-        if (!$this->movie_print_service->can_user_print_order()) {
+        if (!$this->employee_print_service->can_user_print_order()) {
 
             return;
         }
@@ -171,7 +171,7 @@ class EmployeeController extends BaseController
 
         try {
 
-            $file = $this->movie_print_service->print_document($format, $order);
+            $file = $this->employee_printer_service->print_document($format, $order);
 
             $file_path = plugin_dir_path(__FILE__) . '../temp-files/' . $file;
 
