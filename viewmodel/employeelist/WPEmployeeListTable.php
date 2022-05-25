@@ -108,7 +108,7 @@ class WPEmployeeListTable extends WP_List_Table
                              font-family: arial, sans-serif;
                              /*input has OS specific font-family*/
                              color: #069;
-                             text-decoration: underline;
+                             text-decoration: none;
                             cursor: pointer;" 
                     type="submit">%s
                  </button>            
