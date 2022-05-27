@@ -22,7 +22,7 @@ class FrontendController
             case 'employeeview':
                 wp_enqueue_style(
                     'employee-view-page',
-                    plugin_dir_path(__FILE__) . '../resources/css/employee-view-page.css'
+                    plugin_dir_url(__FILE__) . '../resources/css/employee-view-page.css'
                 );
 
                 include_once plugin_dir_path(__FILE__) . '../resources/views/employee-view-page.php';
