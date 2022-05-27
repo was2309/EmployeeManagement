@@ -65,7 +65,8 @@ class EmployeeRepository
         return $this->db->get_results($query, ARRAY_A);
     }
 
-    public function get_employee_by_name($name){
+    public function get_employee_by_name($name, $current_page, $per_page ){
+        $offset = $per_page * ($current_page-1);
         $query = "SELECT  e.`id` AS employee_id, 
                             e.employee_first_name,
                             e.employee_last_name,
@@ -73,11 +74,14 @@ class EmployeeRepository
                             e.employee_department_id,
                             d.id AS department_id,
                             d.department_name AS department_name, 
-                            d.department_name_abbreviation
+                            d.department_name_abbreviation,
+                            COUNT(e.id) AS total_number
                             FROM " . $this->table_name . " e
                             INNER JOIN " . $this->db->prefix . BaseRepository::EMPLOYEE_DEPARTMENT_TABLE_NAME . " d 
                             ON e.employee_department_id=d.id
-                            WHERE e.employee_last_name LIKE '%" . $name . "%' OR e.employee_first_name LIKE '%" . $name ."%' ";
+                            WHERE e.employee_last_name LIKE '%" . $name . "%' OR e.employee_first_name LIKE '%" . $name ."%'  
+                            ORDER BY e.employee_last_name
+                            LIMIT " . $per_page ." OFFSET " . $offset ;
 
         return $this->db->get_results($query, ARRAY_A);
     }
@@ -112,13 +116,21 @@ class EmployeeRepository
         return $this->db->delete($this->table_name, ['id' => $id]);
     }
 
-    public function get_employee_data_for_list_table(){
+    public function get_employee_data_for_list_table($current_page, $per_page){
+        $offset = $per_page * ($current_page-1);
         $query = "SELECT e.id AS employee_id, e.employee_first_name, e.employee_last_name, e.employee_birthday, d.department_name, d.department_name_abbreviation
                    FROM " . $this->table_name . " e
                    INNER JOIN " . $this->db->prefix . BaseRepository::EMPLOYEE_DEPARTMENT_TABLE_NAME . " d
-                   ON e.employee_department_id = d.id";
+                   ON e.employee_department_id = d.id 
+                   ORDER BY e.employee_last_name
+                   LIMIT " . $per_page ." OFFSET " . $offset ;
 
         return $this->db->get_results($query, ARRAY_A);
+    }
+
+    public function get_total_number(){
+        $query = "SELECT COUNT(id) FROM ". $this->table_name;
+        return $this->db->get_row($query, OBJECT);
     }
 
 

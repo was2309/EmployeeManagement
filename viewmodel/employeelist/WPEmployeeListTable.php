@@ -8,10 +8,12 @@ class WPEmployeeListTable extends WP_List_Table
 {
 
     private $employee_data;
+    private $total_number;
 
-    public function __construct( $employee_data, $args = array()){
+    public function __construct( $employee_data, $total_number, $args = array()){
         parent::__construct($args);
         $this->employee_data = $employee_data;
+        $this->total_number = $total_number;
     }
 
 
@@ -73,17 +75,17 @@ class WPEmployeeListTable extends WP_List_Table
         $perPage = $this->get_items_per_page('employees_per_page', 5);
 
         $currentPage = $this->get_pagenum();
-        $totalItems = count($this->employee_data);
+//        $totalItems = count($this->employee_data);
 
         if($this->employee_data){
             usort($this->employee_data, [&$this, 'usort_reorder']);
-            $this->employee_data = array_slice($this->employee_data, (($currentPage - 1) * $perPage), $perPage);
+//            $this->employee_data = array_slice($this->employee_data, (($currentPage - 1) * $perPage), $perPage);
         }
 
         $this->set_pagination_args([
-            'total_items' =>$totalItems,
+            'total_items' =>$this->total_number,
             'per_page' => $perPage,
-            'total_page' => ceil($totalItems/$perPage)
+            'total_page' => ceil($this->total_number/$perPage)
         ]);
 
         $this->items = $this->employee_data;

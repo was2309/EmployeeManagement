@@ -19,8 +19,8 @@ class EmployeeService
         return BaseRepository::get_base_repository()->get_employee_repository()->get_employee_by_last_name($last_name);
     }
 
-    public function find_employee_by_name($name){
-        return BaseRepository::get_base_repository()->get_employee_repository()->get_employee_by_name($name);
+    public function find_employee_by_name($name, $current_page, $per_page){
+        return BaseRepository::get_base_repository()->get_employee_repository()->get_employee_by_name($name, $current_page, $per_page);
     }
 
 
@@ -36,8 +36,14 @@ class EmployeeService
         BaseRepository::get_base_repository()->get_employee_repository()->delete_employee($id);
     }
 
-    public function get_employee_data_for_list_table(){
-        return BaseRepository::get_base_repository()->get_employee_repository()->get_employee_data_for_list_table();
+    public function get_employee_data_for_list_table($current_page, $per_page){
+        return BaseRepository::get_base_repository()->get_employee_repository()->get_employee_data_for_list_table($current_page, $per_page);
     }
+
+    public function get_total_number()
+    {
+        return BaseRepository::get_base_repository()->get_employee_repository()->get_total_number();
+    }
+
 
 }
