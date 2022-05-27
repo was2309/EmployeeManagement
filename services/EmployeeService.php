@@ -19,6 +19,11 @@ class EmployeeService
         return BaseRepository::get_base_repository()->get_employee_repository()->get_employee_by_last_name($last_name);
     }
 
+    public function find_employee_by_name($name){
+        return BaseRepository::get_base_repository()->get_employee_repository()->get_employee_by_name($name);
+    }
+
+
     public function update_employee($id, $employee){
         if(!$employee){
             return false;

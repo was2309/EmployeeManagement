@@ -19,7 +19,7 @@ class EmployeeListVM
         if(isset($_REQUEST['page']) && isset($_REQUEST['s'])){
             $name = trim(esc_html($_REQUEST['s']));
 
-            $employee_data = $this->employee_service->find_employee_by_last_name($name);
+            $employee_data = $this->employee_service->find_employee_by_name($name);
         }else{
             $employee_data = $this->employee_service->get_employee_data_for_list_table();
         }

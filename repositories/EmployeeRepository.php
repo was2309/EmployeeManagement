@@ -65,6 +65,23 @@ class EmployeeRepository
         return $this->db->get_results($query, ARRAY_A);
     }
 
+    public function get_employee_by_name($name){
+        $query = "SELECT  e.`id` AS employee_id, 
+                            e.employee_first_name,
+                            e.employee_last_name,
+                            e.employee_birthday, 
+                            e.employee_department_id,
+                            d.id AS department_id,
+                            d.department_name AS department_name, 
+                            d.department_name_abbreviation
+                            FROM " . $this->table_name . " e
+                            INNER JOIN " . $this->db->prefix . BaseRepository::EMPLOYEE_DEPARTMENT_TABLE_NAME . " d 
+                            ON e.employee_department_id=d.id
+                            WHERE e.employee_last_name LIKE '%" . $name . "%' OR e.employee_first_name LIKE '%" . $name ."%' ";
+
+        return $this->db->get_results($query, ARRAY_A);
+    }
+
     public function save_new_employee($employee){
         if(!BaseRepository::get_base_repository()->get_department_repository()->get_department_by_id($employee['employee_department_id'])){
             return false;
