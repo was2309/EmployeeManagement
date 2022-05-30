@@ -108,9 +108,9 @@ class Plugin
     public function employee_page()
     {
         add_submenu_page(
-            'employee_management',
+            'employee-management',
             'Employee',
-            __('New employee', 'employee_management'),
+            __('New employee', 'employee-management'),
             'manage_options',
             'employee',
             [new FrontendController(), 'render']
@@ -152,7 +152,7 @@ class Plugin
     {
 
         load_plugin_textdomain(
-            'employee_management',
+            'employee-management',
             false,
             plugin_basename(dirname(__FILE__)) . '/i18n/languages'
         );
@@ -161,8 +161,8 @@ class Plugin
     public function add_new_registered_wc_order_statuses($order_statuses)
     {
 
-        $order_statuses['wc-new_status_1'] = __('New status 1', ',employee_management');
-        $order_statuses['wc-new_status_2'] = __('New status 2', ',employee_management');
+        $order_statuses['wc-new_status_1'] = __('New status 1', ',employee-management');
+        $order_statuses['wc-new_status_2'] = __('New status 2', ',employee-management');
 
         return $order_statuses;
 
