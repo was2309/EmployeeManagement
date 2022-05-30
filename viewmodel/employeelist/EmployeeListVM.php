@@ -28,8 +28,8 @@ class EmployeeListVM
             $name = trim(esc_html($_REQUEST['s']));
 
             $employee_data = $this->employee_service->find_employee_by_name($name, $current_page, $per_page);
-            $first_element = reset($employee_data);
-            $total_number = intval($first_element['total_number']);
+            $last_element = array_pop($employee_data);
+            $total_number = intval($last_element['total_number']);
 
         }
         else{
