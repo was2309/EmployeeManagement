@@ -16,8 +16,9 @@ $employee_list_table = $employee_list_vm->get_employee_list();
 
 
     <?php $employee_list_table->prepare_items();?>
-    <form method="post">
+    <form method="get">
         <p class="search-box">
+            <input type="hidden" name="page" value="employees" />
             <?php $employee_list_table->search_box(esc_html(__('Find employee', 'employee-management')), 'search-employee');?>
         </p>
     </form>
