@@ -15,9 +15,9 @@ class PdfEmployeePrinter implements PrinterInterface
         $pdf->Cell(1,10, $employee['employee_first_name'] . ' ' . $employee['employee_last_name']);
 
         $pdf->SetFont('Times', 'B', 12 );
-        $pdf->Cell(1,40,'Birthday: ' . $employee['employee_birthday']);
-        $pdf->Cell(1,60, 'Department: ' . $employee['department_name']);
-        $pdf->Cell(1,80, 'Department abbreviation: ' . $employee['department_name_abbreviation']);
+        $pdf->Cell(1,30,'Birthday: ' . $employee['employee_birthday'],0,1, 'L');
+        $pdf->Cell(1,35, 'Department: ' . $employee['department_name'], 0,1, 'L');
+        $pdf->Cell(1,40, 'Department abbreviation: ' . $employee['department_name_abbreviation'], 0,1, 'L');
 
         $file_name = $outputdir . '/' . $employee['employee_first_name'] . $employee['employee_last_name'];
         $pdf->Output($file_name, 'F');
